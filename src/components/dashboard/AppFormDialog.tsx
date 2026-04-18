@@ -14,7 +14,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
+
+const MARKUP_OPTIONS = ["0", "0.5", "1", "1.5", "2", "2.5", "3"] as const;
 import {
   ALL_TOKEN_SCOPES,
   type AppRegisterPayload,
@@ -72,8 +81,8 @@ export function AppFormDialog({
     if (!name.trim()) return setError("App name is required.");
     if (!scopes.length) return setError("Select at least one scope.");
     const markupNum = Number(markup);
-    if (Number.isNaN(markupNum) || markupNum < 0 || markupNum > 5) {
-      return setError("Markup percentage must be between 0 and 5.");
+    if (Number.isNaN(markupNum) || markupNum < 0 || markupNum > 3) {
+      return setError("Markup percentage must be between 0 and 3.");
     }
     const payload: AppRegisterPayload = {
       name: name.trim(),
@@ -157,17 +166,20 @@ export function AppFormDialog({
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="markup">
-                Markup percentage <span className="text-muted-foreground">(0–5%)</span>
+                Markup percentage <span className="text-muted-foreground">(0–3%)</span>
               </Label>
-              <Input
-                id="markup"
-                type="number"
-                min={0}
-                max={5}
-                step={0.01}
-                value={markup}
-                onChange={(e) => setMarkup(e.target.value)}
-              />
+              <Select value={markup} onValueChange={setMarkup}>
+                <SelectTrigger id="markup">
+                  <SelectValue placeholder="Select markup" />
+                </SelectTrigger>
+                <SelectContent>
+                  {MARKUP_OPTIONS.map((v) => (
+                    <SelectItem key={v} value={v}>
+                      {v}%
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="github">GitHub</Label>
