@@ -81,8 +81,8 @@ export function AppFormDialog({
     if (!name.trim()) return setError("App name is required.");
     if (!scopes.length) return setError("Select at least one scope.");
     const markupNum = Number(markup);
-    if (Number.isNaN(markupNum) || markupNum < 0 || markupNum > 5) {
-      return setError("Markup percentage must be between 0 and 5.");
+    if (Number.isNaN(markupNum) || markupNum < 0 || markupNum > 3) {
+      return setError("Markup percentage must be between 0 and 3.");
     }
     const payload: AppRegisterPayload = {
       name: name.trim(),
