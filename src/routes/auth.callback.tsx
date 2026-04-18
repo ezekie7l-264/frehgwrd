@@ -25,7 +25,7 @@ function CallbackPage() {
     const accounts = parseOAuthAccounts(window.location.search);
     if (accounts.length === 0) {
       setError(
-        "No Deriv accounts returned. The OAuth callback is missing token parameters — check that app ID 133222 has this URL whitelisted as a redirect URI.",
+        "No Deriv accounts returned. The OAuth callback is missing token parameters — check that your redirect URI is whitelisted for the OAuth app.",
       );
       return;
     }

@@ -187,7 +187,9 @@ export class DerivClient {
       date_from: dateFrom,
       date_to: dateTo,
     };
-    if (appIds && appIds.length) payload.app_id = appIds;
+    if (appIds && appIds.length) {
+      payload.app_id = appIds.length === 1 ? appIds[0] : appIds;
+    }
     return this.send(payload);
   }
 

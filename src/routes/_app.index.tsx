@@ -56,16 +56,37 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
   const profitTableCurrency =
     data?.balance?.currency ?? data?.authorize?.currency ?? "USD";
 
+  const selectedAppStats = useMemo(() => {
+    if (!comm || selectedAppId == null) return null;
+    const defaultRow = {
+      app_id: selectedAppId,
+      app_markup_usd: 0,
+      app_markup_value: 0,
+      dev_currcode: "USD",
+      transactions_count: 0,
+    };
+    const find = (period: typeof comm.today) =>
+      period.breakdown.find((row) => row.app_id === selectedAppId) ?? defaultRow;
+    return {
+      today: find(comm.today),
+      yesterday: find(comm.yesterday),
+      thisMonth: find(comm.thisMonth),
+      lastMonth: find(comm.lastMonth),
+      range: find(comm.range),
+    };
+  }, [comm, selectedAppId]);
+
   const handleRefresh = () => {
     refresh();
     refreshComm();
   };
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-      {/* Header */}
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-        <div>
+    <main className="min-h-screen bg-background md:ml-72">
+      <div className="px-4 py-8 sm:px-6 md:max-w-none md:px-0 md:py-0 w-full">
+        {/* Header */}
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3 px-4 sm:px-6 md:px-0">
+          <div>
             <h1 className="text-2xl font-semibold tracking-tight">
               {data?.authorize?.fullname || "Welcome back"}
             </h1>
@@ -92,7 +113,7 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
         </div>
 
         {(error || commError) && (
-          <Card className="mb-6 flex items-start gap-3 border-destructive/40 bg-destructive/10 p-4">
+          <Card className="mb-6 flex items-start gap-3 border-destructive/40 bg-destructive/10 p-4 mx-4 sm:mx-6 md:mx-0">
             <AlertCircle className="mt-0.5 h-4 w-4 text-destructive" />
             <div className="text-sm">
               <div className="font-medium text-destructive">Failed to load data</div>
@@ -102,61 +123,83 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
         )}
 
         {/* ===== Commission comparisons ===== */}
-        <section className="mb-2 flex items-end justify-between">
-          <h2 className="text-sm font-semibold tracking-tight text-muted-foreground">
-            Commission overview
-          </h2>
-          {commLoading && (
-            <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-              <Loader2 className="h-3 w-3 animate-spin" /> Updating…
-            </span>
-          )}
-        </section>
+        <section className="mb-2 flex flex-wrap items-end justify-between gap-3 px-4 sm:px-6 md:px-0">
+            <div>
+              <h2 className="text-sm font-semibold tracking-tight text-muted-foreground">
+                Commission overview
+              </h2>
+            </div>
+            <div className="flex items-center gap-3">
+              <Select
+                value={selectedAppId ? selectedAppId.toString() : "all"}
+                onValueChange={(value) =>
+                  setSelectedAppId(value === "all" ? null : parseInt(value, 10))
+                }
+              >
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder={comm?.apps?.length ? "All apps" : "Select app"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All apps</SelectItem>
+                  {comm?.apps?.map((app) => (
+                    <SelectItem key={app.app_id} value={app.app_id.toString()}>
+                      {app.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {commLoading && (
+                <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Loader2 className="h-3 w-3 animate-spin" /> Updating…
+                </span>
+              )}
+            </div>
+          </section>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4">
-          <ComparisonCard
-            label="Today"
-            current={comm?.today.total_app_markup_usd ?? 0}
-            previous={comm?.yesterday.total_app_markup_usd ?? 0}
-            previousLabel="yesterday"
-            className="card-portrait"
-          />
-          <ComparisonCard
-            label="Yesterday"
-            current={comm?.yesterday.total_app_markup_usd ?? 0}
-            previous={comm?.today.total_app_markup_usd ?? 0}
-            previousLabel="today"
-            className="card-portrait"
-          />
-          <ComparisonCard
-            label="This month"
-            current={comm?.thisMonth.total_app_markup_usd ?? 0}
-            previous={comm?.lastMonth.total_app_markup_usd ?? 0}
-            previousLabel="last month"
-            className="card-portrait"
-          />
-          <ComparisonCard
-            label="Last month"
-            current={comm?.lastMonth.total_app_markup_usd ?? 0}
-            previous={comm?.thisMonth.total_app_markup_usd ?? 0}
-            previousLabel="this month"
-            className="card-portrait"
-          />
-        </section>
+          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4 px-4 sm:px-6 md:px-0">
+            <ComparisonCard
+              label="Today"
+              current={selectedAppStats?.today?.app_markup_usd ?? comm?.today.total_app_markup_usd ?? 0}
+              previous={selectedAppStats?.yesterday?.app_markup_usd ?? comm?.yesterday.total_app_markup_usd ?? 0}
+              previousLabel="yesterday"
+              className="card-portrait"
+            />
+            <ComparisonCard
+              label="Yesterday"
+              current={selectedAppStats?.yesterday?.app_markup_usd ?? comm?.yesterday.total_app_markup_usd ?? 0}
+              previous={selectedAppStats?.today?.app_markup_usd ?? comm?.today.total_app_markup_usd ?? 0}
+              previousLabel="today"
+              className="card-portrait"
+            />
+            <ComparisonCard
+              label="This month"
+              current={selectedAppStats?.thisMonth?.app_markup_usd ?? comm?.thisMonth.total_app_markup_usd ?? 0}
+              previous={selectedAppStats?.lastMonth?.app_markup_usd ?? comm?.lastMonth.total_app_markup_usd ?? 0}
+              previousLabel="last month"
+              className="card-portrait"
+            />
+            <ComparisonCard
+              label="Last month"
+              current={selectedAppStats?.lastMonth?.app_markup_usd ?? comm?.lastMonth.total_app_markup_usd ?? 0}
+              previous={selectedAppStats?.thisMonth?.app_markup_usd ?? comm?.thisMonth.total_app_markup_usd ?? 0}
+              previousLabel="this month"
+              className="card-portrait"
+            />
+          </section>
 
-        {/* ===== Totals ===== */}
-        <section className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4">
-          <StatCard
-            label="Total commission (this month)"
-            accent="success"
-            value={`${(comm?.thisMonth.total_app_markup_usd ?? 0).toFixed(2)} USD`}
-            hint={`Last month: ${(comm?.lastMonth.total_app_markup_usd ?? 0).toFixed(2)} USD`}
-            className="card-portrait"
-          />
-          <StatCard
-            label="Total transactions (this month)"
-            value={(comm?.thisMonth.total_transactions_count ?? 0).toLocaleString()}
-            hint={`Last month: ${(comm?.lastMonth.total_transactions_count ?? 0).toLocaleString()}`}
+          {/* ===== Totals ===== */}
+          <section className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4 px-4 sm:px-6 md:px-0">
+            <StatCard
+              label="Total commission (this month)"
+              accent="success"
+              value={`$${(selectedAppStats?.thisMonth?.app_markup_usd ?? comm?.thisMonth.total_app_markup_usd ?? 0).toFixed(2)}`}
+              hint={`Last month: $${(selectedAppStats?.lastMonth?.app_markup_usd ?? comm?.lastMonth.total_app_markup_usd ?? 0).toFixed(2)}`}
+              className="card-portrait"
+            />
+            <StatCard
+              label="Total transactions (this month)"
+              value={((selectedAppStats?.thisMonth?.transactions_count ?? comm?.thisMonth.total_transactions_count) ?? 0).toLocaleString()}
+            hint={`Last month: ${((selectedAppStats?.lastMonth?.transactions_count ?? comm?.lastMonth.total_transactions_count) ?? 0).toLocaleString()}`}
             className="card-portrait"
           />
           <StatCard
@@ -168,14 +211,14 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
           />
           <StatCard
             label="Today's transactions"
-            value={(comm?.today.total_transactions_count ?? 0).toLocaleString()}
-            hint={`Yesterday: ${(comm?.yesterday.total_transactions_count ?? 0).toLocaleString()}`}
+            value={((selectedAppStats?.today?.transactions_count ?? comm?.today.total_transactions_count) ?? 0).toLocaleString()}
+            hint={`Yesterday: ${((selectedAppStats?.yesterday?.transactions_count ?? comm?.yesterday.total_transactions_count) ?? 0).toLocaleString()}`}
             className="card-portrait"
           />
         </section>
 
         {/* ===== Custom range ===== */}
-        <section className="mt-6">
+        <section className="mt-6 px-4 sm:px-6 md:px-0">
           <Card className="border-border/60 bg-[image:var(--gradient-card)] p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -201,8 +244,7 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
                   Commission
                 </div>
                 <div className="mt-1 text-2xl font-semibold tabular-nums">
-                  {(comm?.range.total_app_markup_usd ?? 0).toFixed(2)}{" "}
-                  <span className="text-base text-muted-foreground">USD</span>
+                  {'$' + ((selectedAppStats?.range?.app_markup_usd ?? comm?.range.total_app_markup_usd ?? 0).toFixed(2))}
                 </div>
               </div>
               <div>
@@ -210,7 +252,7 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
                   Transactions
                 </div>
                 <div className="mt-1 text-2xl font-semibold tabular-nums">
-                  {(comm?.range.total_transactions_count ?? 0).toLocaleString()}
+                  {((selectedAppStats?.range?.transactions_count ?? comm?.range.total_transactions_count) ?? 0).toLocaleString()}
                 </div>
               </div>
               <div>
@@ -218,7 +260,7 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
                   Active apps in range
                 </div>
                 <div className="mt-1 text-2xl font-semibold tabular-nums">
-                  {comm?.range.breakdown.length ?? 0}
+                  {selectedAppId ? 1 : comm?.range.breakdown.length ?? 0}
                 </div>
               </div>
             </div>
@@ -226,27 +268,9 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
         </section>
 
         {/* ===== App breakdown ===== */}
-        <section className="mt-6">
+        <section className="mt-6 px-4 sm:px-6 md:px-0">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-sm font-semibold tracking-tight">Commission by app</h2>
-            <Select
-              value={selectedAppId ? selectedAppId.toString() : "all"}
-              onValueChange={(value) =>
-                setSelectedAppId(value === "all" ? null : parseInt(value))
-              }
-            >
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Filter by app" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All apps</SelectItem>
-                {comm?.apps?.map((app) => (
-                  <SelectItem key={app.app_id} value={app.app_id.toString()}>
-                    {app.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
           <AppCommissionsTable
             apps={comm?.apps ?? []}
@@ -256,25 +280,10 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
           />
         </section>
 
-        {/* ===== Trading activity ===== */}
-        {data && (
-          <section className="mt-6">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-sm font-semibold tracking-tight">
-                Recent trading activity
-              </h2>
-              <span className="text-xs text-muted-foreground">
-                {data.profitTable.length} transactions
-              </span>
-            </div>
-            <ClientsTable rows={data.profitTable} currency={profitTableCurrency} />
-          </section>
-        )}
-
-        <footer className="mt-10 text-center text-xs text-muted-foreground">
-          Live data via <span className="font-mono">wss://ws.derivws.com/websockets/v3</span> ·
-          App ID <span className="font-mono">133222</span>
-      </footer>
+        <footer className="mt-10 text-center text-xs text-muted-foreground px-4 sm:px-6 md:px-0">
+          Live data via <span className="font-mono">wss://ws.derivws.com/websockets/v3</span>
+        </footer>
+      </div>
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { ProfitRow } from "@/lib/useDerivData";
+import { formatCurrency } from "@/lib/utils";
 
 // Aggregate real profit_table rows into a daily P&L series.
 function buildSeries(rows: ProfitRow[]) {
@@ -58,7 +59,7 @@ export function CommissionChart({ rows, currency }: { rows: ProfitRow[]; currenc
               fontSize: 12,
             }}
             labelStyle={{ color: "oklch(0.97 0.01 250)" }}
-            formatter={(v: number) => [`${v.toFixed(2)} ${currency}`, "P&L"]}
+            formatter={(v: number) => [formatCurrency(v, currency), "P&L"]}
           />
           <Area
             type="monotone"

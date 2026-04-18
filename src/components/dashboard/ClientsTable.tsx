@@ -10,6 +10,8 @@ import type { ProfitRow } from "@/lib/useDerivData";
 
 // Group profit_table rows by app_id — these are the apps that produced
 // affiliate / markup activity for the authorized account.
+import { formatCurrency } from "@/lib/utils";
+
 export function ClientsTable({ rows, currency }: { rows: ProfitRow[]; currency: string }) {
   const byApp = new Map<
     number,
@@ -60,13 +62,13 @@ export function ClientsTable({ rows, currency }: { rows: ProfitRow[]; currency: 
               </TableCell>
               <TableCell className="text-right tabular-nums">{a.trades}</TableCell>
               <TableCell className="text-right tabular-nums">
-                {a.volume.toFixed(2)} {currency}
+                {formatCurrency(a.volume, currency)}
               </TableCell>
               <TableCell
                 className={`text-right tabular-nums ${a.pnl >= 0 ? "text-success" : "text-destructive"}`}
               >
                 {a.pnl >= 0 ? "+" : ""}
-                {a.pnl.toFixed(2)} {currency}
+                {formatCurrency(a.pnl, currency)}
               </TableCell>
               <TableCell className="text-right text-xs text-muted-foreground">
                 {a.lastTs ? new Date(a.lastTs).toLocaleString() : "—"}

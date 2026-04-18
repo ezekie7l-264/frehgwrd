@@ -77,7 +77,7 @@ const STEPS = [
   {
     n: "02",
     title: "We connect to wss://ws.derivws.com",
-    body: "A WebSocket session authorizes against the official Deriv API using app_id 133222.",
+    body: "A WebSocket session authorizes against the official Deriv API using the configured app credentials.",
   },
   {
     n: "03",

@@ -1,6 +1,6 @@
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 import { pctChange } from "@/lib/useCommissionStats";
 
 type Props = {
@@ -28,7 +28,7 @@ export function ComparisonCard({
 
   const fmt = (n: number) =>
     format === "currency"
-      ? `${n.toFixed(2)} ${currency}`
+      ? formatCurrency(n, currency)
       : n.toLocaleString();
 
   const Icon = direction === "up" ? ArrowUpRight : direction === "down" ? ArrowDownRight : Minus;

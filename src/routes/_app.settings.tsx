@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { getDerivClient, DERIV_APP_ID } from "@/lib/deriv";
+import { getDerivClient } from "@/lib/deriv";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -92,7 +92,6 @@ function SettingsPage() {
         <Card className="border-border/60 p-5">
           <h2 className="mb-3 text-sm font-semibold">Connection</h2>
           <dl className="grid gap-2 text-sm sm:grid-cols-2">
-            <Row label="App ID" value={DERIV_APP_ID} mono />
             <Row label="WebSocket" value="wss://ws.derivws.com/websockets/v3" mono />
             <Row label="Scopes" value={(authorize?.scopes ?? []).join(", ") || "—"} />
           </dl>

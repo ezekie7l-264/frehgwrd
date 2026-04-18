@@ -69,17 +69,16 @@ export function AppShell() {
   return (
     <div className="min-h-screen bg-background">
       <aside className="fixed left-0 top-0 bottom-0 z-40 hidden w-72 flex-col border-r border-border/60 bg-card/95 p-4 shadow-lg shadow-black/10 backdrop-blur-md md:flex">
-        <div className="mb-6 rounded-3xl bg-gradient-to-br from-sky-500 to-violet-500 p-4 text-white shadow-[0_24px_60px_-40px_rgba(14,165,233,0.8)]">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-white/15">
-              <LogoBadge className="h-9 w-9" />
-            </div>
-            <div>
-              <div className="text-sm font-semibold">App Deriv Sites</div>
-              <div className="text-xs italic text-white/80">
-                Powered by <span className="font-semibold text-red-500">Deriv</span>
-              </div>
-            </div>
+        <div className="mb-6 flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left text-xs text-white shadow-sm backdrop-blur-sm opacity-60">
+          <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500">
+            <LogoBadge className="h-5 w-5" />
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <span className="font-semibold text-white">App Deriv Sites</span>
+            <span className="text-[10px] leading-4 text-muted-foreground">
+              <span className="italic">Powered by </span>
+              <span className="font-semibold text-destructive">Deriv</span>
+            </span>
           </div>
         </div>
 
@@ -136,17 +135,16 @@ export function AppShell() {
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-72 transform bg-card/95 p-4 shadow-xl shadow-black/20 backdrop-blur-md transition duration-300 md:hidden ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
-        <div className="mb-6 rounded-3xl bg-gradient-to-br from-sky-500 to-violet-500 p-4 text-white">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-white/15">
-              <LogoBadge className="h-9 w-9" />
-            </div>
-            <div>
-              <div className="text-sm font-semibold">App Deriv Sites</div>
-              <div className="text-xs italic text-white/80">
-                Powered by <span className="font-semibold text-red-500">Deriv</span>
-              </div>
-            </div>
+        <div className="mb-6 flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left text-xs text-white shadow-sm backdrop-blur-sm opacity-60">
+          <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500">
+            <LogoBadge className="h-5 w-5" />
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <span className="font-semibold text-white">App Deriv Sites</span>
+            <span className="text-[10px] leading-4 text-muted-foreground">
+              <span className="italic">Powered by </span>
+              <span className="font-semibold text-destructive">Deriv</span>
+            </span>
           </div>
         </div>
         <nav className="flex flex-col gap-2">
@@ -180,8 +178,8 @@ export function AppShell() {
         </div>
       </aside>
 
-      <header className="sticky top-0 z-30 border-b border-border/60 bg-card/60 backdrop-blur-md md:pl-72">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+      <header className="sticky top-0 z-30 border-b border-border/60 bg-card/60 backdrop-blur-md md:ml-72">
+        <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -196,7 +194,7 @@ export function AppShell() {
                 <span className="block h-[2px] w-4 rounded-full bg-foreground" />
               </div>
             </Button>
-            <div className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left text-xs text-white shadow-sm backdrop-blur-sm opacity-90">
+            <div className="md:hidden flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left text-xs text-white shadow-sm backdrop-blur-sm opacity-60">
               <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500">
                 <LogoBadge className="h-5 w-5" />
               </div>

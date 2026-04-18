@@ -9,6 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import type { AppBreakdownRow, AppInfo } from "@/lib/useCommissionStats";
+import { formatCurrency } from "@/lib/utils";
 
 type Props = {
   apps: AppInfo[];
@@ -41,32 +42,8 @@ export function AppCommissionsTable({ apps, breakdown, rangeLabel, selectedAppId
   // Filter rows based on selectedAppId
   const filteredRows = selectedAppId ? rows.filter((r) => r.app_id === selectedAppId) : rows;
 
-  // Calculate totals for filtered rows
-  const totalCommission = filteredRows.reduce((sum, r) => sum + r.app_markup_usd, 0);
-  const totalTransactions = filteredRows.reduce((sum, r) => sum + r.transactions_count, 0);
-
   return (
     <div className="space-y-4">
-      {/* Totals section outside scrollable area */}
-      <div className="grid gap-3 sm:grid-cols-2">
-        <Card className="border-border/60 bg-[image:var(--gradient-card)] p-4">
-          <div className="text-xs uppercase tracking-wider text-muted-foreground">
-            Total Commission ({filteredRows.length} {filteredRows.length === 1 ? "app" : "apps"})
-          </div>
-          <div className="mt-2 text-2xl font-semibold tabular-nums">
-            {totalCommission.toFixed(2)} <span className="text-sm text-muted-foreground">USD</span>
-          </div>
-        </Card>
-        <Card className="border-border/60 bg-[image:var(--gradient-card)] p-4">
-          <div className="text-xs uppercase tracking-wider text-muted-foreground">
-            Total Transactions ({filteredRows.length} {filteredRows.length === 1 ? "app" : "apps"})
-          </div>
-          <div className="mt-2 text-2xl font-semibold tabular-nums">
-            {totalTransactions.toLocaleString()}
-          </div>
-        </Card>
-      </div>
-
       {/* Scrollable table showing 8 apps */}
       <div className="overflow-hidden rounded-xl border border-border/60 bg-card/40">
         <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
@@ -88,7 +65,7 @@ export function AppCommissionsTable({ apps, breakdown, rangeLabel, selectedAppId
                 <TableHead>App ID</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Transactions</TableHead>
-                <TableHead className="text-right">Commission (USD)</TableHead>
+                <TableHead className="text-right">Commission</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -122,7 +99,7 @@ export function AppCommissionsTable({ apps, breakdown, rangeLabel, selectedAppId
                       {r.transactions_count.toLocaleString()}
                     </TableCell>
                     <TableCell className="text-right tabular-nums font-medium">
-                      {r.app_markup_usd.toFixed(2)}
+                      {formatCurrency(r.app_markup_usd, r.currency)}
                     </TableCell>
                   </TableRow>
                 ))
