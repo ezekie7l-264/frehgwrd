@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LogoBadge } from "@/components/ui/logo-badge";
 import {
   Activity,
   ArrowRight,
@@ -123,13 +124,18 @@ function LoginPage() {
 
       {/* Top bar */}
       <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6">
-        <Link to="/login" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[image:var(--gradient-primary)] shadow-[var(--shadow-glow)] sm:h-9 sm:w-9">
-            <Activity className="h-4 w-4 text-primary-foreground" />
+        <Link
+          to="/login"
+          className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left text-xs text-white shadow-sm backdrop-blur-sm opacity-90 sm:text-sm"
+        >
+          <LogoBadge className="h-9 w-9 rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500" />
+          <div className="flex flex-col gap-0.5">
+            <span className="font-semibold text-white">App Deriv Sites</span>
+            <span className="text-[10px] leading-4 text-muted-foreground">
+              <span className="italic">Powered by </span>
+              <span className="font-semibold text-red-500">Deriv</span>
+            </span>
           </div>
-          <span className="text-sm font-bold tracking-tight text-primary sm:text-base">
-            AppDeriv
-          </span>
         </Link>
         <nav className="hidden items-center gap-5 text-sm text-muted-foreground sm:flex">
           <a
@@ -364,8 +370,8 @@ function LoginPage() {
         </section>
 
         <p className="mx-auto mt-10 max-w-md text-center text-[11px] text-muted-foreground sm:mt-16 sm:text-xs">
-          We never send your token to any server other than Deriv&apos;s WebSocket API
-          (<span className="font-mono">wss://ws.derivws.com</span>). Sessions are stored locally in
+          We never send your token to any server other than Deriv&apos;s WebSocket API (
+          <span className="font-mono">wss://ws.derivws.com</span>). Sessions are stored locally in
           your browser.
         </p>
       </main>

@@ -63,8 +63,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="min-h-screen">
         {children}
+
+        <footer className="border-t border-white/10 bg-card/80 px-4 py-4 text-center text-xs text-muted-foreground backdrop-blur-md">
+          AppDeriv Sites Builder @2026 — Built by Extra Dollar
+        </footer>
         <Scripts />
       </body>
     </html>

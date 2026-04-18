@@ -3,7 +3,18 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { getDerivClient, type ConnectionStatus } from "@/lib/deriv";
 import { Button } from "@/components/ui/button";
-import { Activity, LayoutDashboard, AppWindow, KeyRound, Settings, LogOut, Menu, X, Loader2 } from "lucide-react";
+import { LogoBadge } from "@/components/ui/logo-badge";
+import {
+  Activity,
+  LayoutDashboard,
+  AppWindow,
+  KeyRound,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  Loader2,
+} from "lucide-react";
 
 const statusColor: Record<ConnectionStatus, string> = {
   idle: "bg-muted-foreground",
@@ -57,35 +68,146 @@ export function AppShell() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-30 border-b border-border/60 bg-card/60 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[image:var(--gradient-primary)] shadow-[var(--shadow-glow)]">
-                <Activity className="h-5 w-5 text-primary-foreground" />
+      <aside className="fixed left-0 top-0 bottom-0 z-40 hidden w-72 flex-col border-r border-border/60 bg-card/95 p-4 shadow-lg shadow-black/10 backdrop-blur-md md:flex">
+        <div className="mb-6 rounded-3xl bg-gradient-to-br from-sky-500 to-violet-500 p-4 text-white shadow-[0_24px_60px_-40px_rgba(14,165,233,0.8)]">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-white/15">
+              <LogoBadge className="h-9 w-9" />
+            </div>
+            <div>
+              <div className="text-sm font-semibold">App Deriv Sites</div>
+              <div className="text-xs italic text-white/80">
+                Powered by <span className="font-semibold text-red-500">Deriv</span>
               </div>
-              <div className="hidden sm:block">
-                <div className="text-sm font-bold tracking-tight text-primary">AppDeriv</div>
-                <div className="text-xs text-muted-foreground">Live dashboard</div>
-              </div>
-            </Link>
+            </div>
+          </div>
+        </div>
 
-            <nav className="hidden items-center gap-1 md:flex">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    activeOptions={{ exact: item.exact }}
-                    className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground"
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </nav>
+        <nav className="flex flex-col gap-2">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeOptions={{ exact: item.exact }}
+                className="inline-flex items-center gap-3 rounded-2xl px-4 py-3 text-sm text-muted-foreground transition-all hover:bg-muted/70 hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground"
+              >
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="mt-auto space-y-3">
+          <div className="flex items-center justify-between rounded-2xl border border-border/60 bg-background/30 px-3 py-2 text-xs text-muted-foreground">
+            <span>Status</span>
+            <span className={`h-2.5 w-2.5 rounded-full ${statusColor[status]}`} />
+          </div>
+
+          {session && session.accounts.length > 1 && (
+            <select
+              value={session.activeAccount}
+              onChange={(e) => switchAccount(e.target.value)}
+              className="w-full rounded-2xl border border-border bg-background px-3 py-2 text-sm"
+            >
+              {session.accounts.map((a) => (
+                <option key={a.account} value={a.account}>
+                  {a.account} {a.currency ? `(${a.currency})` : ""}
+                </option>
+              ))}
+            </select>
+          )}
+
+          <Button variant="secondary" size="sm" className="w-full" onClick={logout}>
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </Button>
+        </div>
+      </aside>
+
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30 md:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-72 transform bg-card/95 p-4 shadow-xl shadow-black/20 backdrop-blur-md transition duration-300 md:hidden ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+      >
+        <div className="mb-6 rounded-3xl bg-gradient-to-br from-sky-500 to-violet-500 p-4 text-white">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-white/15">
+              <LogoBadge className="h-9 w-9" />
+            </div>
+            <div>
+              <div className="text-sm font-semibold">App Deriv Sites</div>
+              <div className="text-xs italic text-white/80">
+                Powered by <span className="font-semibold text-red-500">Deriv</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nav className="flex flex-col gap-2">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeOptions={{ exact: item.exact }}
+                className="inline-flex items-center gap-3 rounded-2xl px-4 py-3 text-sm text-muted-foreground transition-all hover:bg-muted/70 hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground"
+              >
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+        <div className="mt-6 flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+          <Button variant="secondary" size="sm" className="flex-1" onClick={logout}>
+            Logout
+          </Button>
+        </div>
+      </aside>
+
+      <header className="sticky top-0 z-30 border-b border-border/60 bg-card/60 backdrop-blur-md md:pl-72">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              className="md:hidden"
+            >
+              <div className="flex h-5 w-5 flex-col justify-between">
+                <span className="block h-[2px] w-4 rounded-full bg-foreground" />
+                <span className="block h-[2px] w-4 rounded-full bg-foreground" />
+                <span className="block h-[2px] w-4 rounded-full bg-foreground" />
+              </div>
+            </Button>
+            <div className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left text-xs text-white shadow-sm backdrop-blur-sm opacity-90">
+              <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500">
+                <LogoBadge className="h-5 w-5" />
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="font-semibold text-white">App Deriv Sites</span>
+                <span className="text-[10px] leading-4 text-muted-foreground">
+                  <span className="italic">Powered by </span>
+                  <span className="font-semibold text-destructive">Deriv</span>
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
@@ -112,49 +234,13 @@ export function AppShell() {
               <LogOut className="mr-1.5 h-4 w-4" />
               Logout
             </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setMobileOpen((o) => !o)}
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
           </div>
         </div>
-
-        {mobileOpen && (
-          <nav className="border-t border-border/60 bg-card/80 px-4 py-3 md:hidden">
-            <div className="flex flex-col gap-1">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    activeOptions={{ exact: item.exact }}
-                    className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground"
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </Link>
-                );
-              })}
-              <button
-                onClick={logout}
-                className="mt-1 inline-flex items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <LogOut className="h-4 w-4" />
-                Logout
-              </button>
-            </div>
-          </nav>
-        )}
       </header>
 
-      <Outlet />
+      <main className="md:pl-72">
+        <Outlet />
+      </main>
     </div>
   );
 }
