@@ -114,20 +114,22 @@ function LoginPage() {
     <div className="relative min-h-screen overflow-hidden bg-background">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[640px] bg-[radial-gradient(ellipse_at_top,_oklch(0.78_0.18_145_/_0.22),_transparent_60%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_at_top,_oklch(0.82_0.16_215_/_0.20),_transparent_60%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-40 left-1/2 h-[480px] w-[680px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,_oklch(0.7_0.18_265_/_0.18),_transparent_70%)]"
+        className="pointer-events-none absolute -bottom-40 left-1/2 h-[420px] w-[600px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,_oklch(0.7_0.18_265_/_0.18),_transparent_70%)]"
       />
 
       {/* Top bar */}
-      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6">
         <Link to="/login" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[image:var(--gradient-primary)] shadow-[var(--shadow-glow)]">
-            <Activity className="h-4.5 w-4.5 text-primary-foreground" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[image:var(--gradient-primary)] shadow-[var(--shadow-glow)] sm:h-9 sm:w-9">
+            <Activity className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-base font-semibold tracking-tight">Deriv Affiliate</span>
+          <span className="text-sm font-bold tracking-tight text-primary sm:text-base">
+            AppDeriv
+          </span>
         </Link>
         <nav className="hidden items-center gap-5 text-sm text-muted-foreground sm:flex">
           <a
@@ -151,27 +153,27 @@ function LoginPage() {
         </nav>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-6xl px-6 pb-20">
+      <main className="relative z-10 mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
         {/* Hero */}
-        <section className="grid gap-10 pt-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-12">
+        <section className="grid gap-6 pt-4 sm:gap-10 sm:pt-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-12">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/60 px-3 py-1 text-xs text-muted-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Powered by the official Deriv WebSocket API
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/60 px-2.5 py-1 text-[11px] text-muted-foreground sm:gap-2 sm:px-3 sm:text-xs">
+              <Sparkles className="h-3 w-3 text-primary sm:h-3.5 sm:w-3.5" />
+              Powered by the official Deriv API
             </span>
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
+            <h1 className="mt-3 text-2xl font-bold tracking-tight sm:mt-5 sm:text-4xl lg:text-5xl">
               The control room for your{" "}
               <span className="bg-[image:var(--gradient-primary)] bg-clip-text text-transparent">
                 Deriv affiliate
               </span>{" "}
               business.
             </h1>
-            <p className="mt-4 max-w-xl text-base text-muted-foreground">
-              Track real commissions, register and manage your app IDs, generate API tokens, and
-              ship third-party trading apps on top of Deriv — all from one authenticated dashboard.
+            <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
+              Track real commissions, register and manage your apps, generate API tokens, and ship
+              third-party trading apps on top of Deriv — all from one authenticated dashboard.
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+            <div className="mt-5 flex flex-wrap items-center gap-2 sm:mt-7 sm:gap-3">
               <Button onClick={handleOAuth} variant="hero" size="lg" disabled={!redirectUri}>
                 Sign in with Deriv
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -180,28 +182,28 @@ function LoginPage() {
                 href="https://api.deriv.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border border-border/60 bg-card/60 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-card"
+                className="inline-flex items-center gap-1.5 rounded-md border border-border/60 bg-card/60 px-3 py-2 text-xs font-medium transition-colors hover:bg-card sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm"
               >
-                <BookOpen className="h-4 w-4" />
-                Deriv API docs
-                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                API docs
+                <ExternalLink className="h-3 w-3 text-muted-foreground sm:h-3.5 sm:w-3.5" />
               </a>
               <a
                 href="https://appderiv.site"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border border-border/60 bg-card/60 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-card"
+                className="inline-flex items-center gap-1.5 rounded-md border border-border/60 bg-card/60 px-3 py-2 text-xs font-medium transition-colors hover:bg-card sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm"
               >
-                <Globe className="h-4 w-4" />
+                <Globe className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 appderiv.site
-                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                <ExternalLink className="h-3 w-3 text-muted-foreground sm:h-3.5 sm:w-3.5" />
               </a>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-muted-foreground sm:mt-6 sm:text-xs">
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-                OAuth via Deriv (app_id {DERIV_APP_ID})
+                Secure OAuth sign-in
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <BarChart3 className="h-3.5 w-3.5 text-primary" />
@@ -211,14 +213,16 @@ function LoginPage() {
           </div>
 
           {/* Auth card */}
-          <Card className="border-border/60 bg-[image:var(--gradient-card)] p-6 shadow-[var(--shadow-card)]">
-            <div className="mb-4 flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                <ShieldCheck className="h-4.5 w-4.5" />
+          <Card className="border-border/60 bg-[image:var(--gradient-card)] p-4 shadow-[var(--shadow-card)] sm:p-6">
+            <div className="mb-3 flex items-center gap-2 sm:mb-4">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/15 text-primary sm:h-9 sm:w-9">
+                <ShieldCheck className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
               </div>
               <div>
-                <h2 className="text-base font-semibold">Connect your account</h2>
-                <p className="text-xs text-muted-foreground">OAuth or API token — your choice.</p>
+                <h2 className="text-sm font-semibold sm:text-base">Connect your account</h2>
+                <p className="text-[11px] text-muted-foreground sm:text-xs">
+                  OAuth or API token — your choice.
+                </p>
               </div>
             </div>
 
