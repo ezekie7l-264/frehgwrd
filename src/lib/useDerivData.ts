@@ -47,10 +47,13 @@ export function useDerivData(token: string | null) {
   // Subscribe to connection status.
   useEffect(() => {
     const client = getDerivClient();
-    return client.onStatus((s, d) => {
+    const unsub = client.onStatus((s, d) => {
       setStatus(s);
       setStatusDetail(d);
     });
+    return () => {
+      unsub();
+    };
   }, []);
 
   const fetchAll = useCallback(async (tok: string) => {
