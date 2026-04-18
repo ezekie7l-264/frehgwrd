@@ -165,3 +165,65 @@
     color: var(--color-foreground);
   }
 }
+
+/* Media query for 9:16 aspect ratio screens (portrait/narrow displays) */
+@layer utilities {
+  @supports (aspect-ratio: 9/16) {
+    @media (max-aspect-ratio: 9/16) {
+      /* Reduce card padding by ~25px total - from p-5 (1.25rem/20px) to p-2 (0.5rem) */
+      .card-portrait {
+        padding: 0.5rem !important; /* Reduced from 1.25rem (p-5) */
+      }
+
+      /* Left-Right Two-Column Layout - Cards side by side */
+      .grid-portrait-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        max-width: 100%;
+      }
+
+      /* Left-Right Four-Card Layout - 2x2 grid for portrait mode */
+      .grid-portrait-4 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        max-width: 100%;
+        padding: 0 0.5rem;
+      }
+
+      /* Reverse grid for alternating left/right positioning */
+      .grid-portrait-4:nth-child(even) {
+        direction: rtl;
+      }
+
+      .grid-portrait-4:nth-child(even) > * {
+        direction: ltr;
+      }
+
+      /* Single column fallback */
+      .grid-portrait-1 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      /* Compact card styling */
+      .card-compact {
+        padding: 0.5rem !important;
+      }
+
+      .card-compact .text-2xl {
+        font-size: 1.125rem;
+      }
+
+      .card-compact .text-xs {
+        font-size: 0.6875rem;
+      }
+
+      .card-compact .text-sm {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}

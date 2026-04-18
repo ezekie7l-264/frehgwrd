@@ -10,6 +10,7 @@ type Props = {
   previousLabel: string;
   currency?: string;
   format?: "currency" | "number";
+  className?: string;
 };
 
 export function ComparisonCard({
@@ -19,6 +20,7 @@ export function ComparisonCard({
   previousLabel,
   currency = "USD",
   format = "currency",
+  className,
 }: Props) {
   const change = pctChange(current, previous);
   const direction =
@@ -39,7 +41,7 @@ export function ComparisonCard({
         : "text-muted-foreground bg-muted/40 border-border";
 
   return (
-    <Card className="relative overflow-hidden border-border/60 bg-[image:var(--gradient-card)] p-5 shadow-[var(--shadow-card)]">
+    <Card className={cn("relative overflow-hidden border-border/60 bg-[image:var(--gradient-card)] p-5 shadow-[var(--shadow-card)]", className)}>
       <div className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
         {label}
       </div>

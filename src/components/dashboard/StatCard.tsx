@@ -6,6 +6,7 @@ type Props = {
   value: string;
   hint?: string;
   accent?: "primary" | "accent" | "success" | "destructive";
+  className?: string;
 };
 
 const accentMap = {
@@ -15,9 +16,9 @@ const accentMap = {
   destructive: "from-destructive/20 to-transparent text-destructive",
 };
 
-export function StatCard({ label, value, hint, accent = "primary" }: Props) {
+export function StatCard({ label, value, hint, accent = "primary", className }: Props) {
   return (
-    <Card className="relative overflow-hidden border-border/60 bg-[image:var(--gradient-card)] p-5 shadow-[var(--shadow-card)]">
+    <Card className={cn("relative overflow-hidden border-border/60 bg-[image:var(--gradient-card)] p-5 shadow-[var(--shadow-card)]", className)}>
       <div
         className={cn(
           "absolute inset-x-0 top-0 h-px bg-gradient-to-r",

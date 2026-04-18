@@ -133,7 +133,7 @@ export function AppFormDialog({
             />
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 grid-portrait-1">
             <div className="space-y-1.5">
               <Label htmlFor="redirect">OAuth redirect URI</Label>
               <Input

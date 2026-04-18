@@ -5,12 +5,18 @@ import { useDerivData } from "@/lib/useDerivData";
 import { useCommissionStats } from "@/lib/useCommissionStats";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { ComparisonCard } from "@/components/dashboard/ComparisonCard";
-import { CommissionChart } from "@/components/dashboard/CommissionChart";
 import { ClientsTable } from "@/components/dashboard/ClientsTable";
 import { AppCommissionsTable } from "@/components/dashboard/AppCommissionsTable";
 import { DateRangePicker } from "@/components/dashboard/DateRangePicker";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { AlertCircle, Loader2, RefreshCw } from "lucide-react";
 import { format } from "date-fns";
 
@@ -34,6 +40,9 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
     return d;
   });
   const [rangeTo, setRangeTo] = useState<Date>(() => new Date());
+
+  // App filter state - null means all apps
+  const [selectedAppId, setSelectedAppId] = useState<number | null>(null);
 
   const customRange = useMemo(() => ({ from: rangeFrom, to: rangeTo }), [rangeFrom, rangeTo]);
   const {
@@ -104,56 +113,64 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
           )}
         </section>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4">
           <ComparisonCard
             label="Today"
             current={comm?.today.total_app_markup_usd ?? 0}
             previous={comm?.yesterday.total_app_markup_usd ?? 0}
             previousLabel="yesterday"
+            className="card-portrait"
           />
           <ComparisonCard
             label="Yesterday"
             current={comm?.yesterday.total_app_markup_usd ?? 0}
             previous={comm?.today.total_app_markup_usd ?? 0}
             previousLabel="today"
+            className="card-portrait"
           />
           <ComparisonCard
             label="This month"
             current={comm?.thisMonth.total_app_markup_usd ?? 0}
             previous={comm?.lastMonth.total_app_markup_usd ?? 0}
             previousLabel="last month"
+            className="card-portrait"
           />
           <ComparisonCard
             label="Last month"
             current={comm?.lastMonth.total_app_markup_usd ?? 0}
             previous={comm?.thisMonth.total_app_markup_usd ?? 0}
             previousLabel="this month"
+            className="card-portrait"
           />
         </section>
 
         {/* ===== Totals ===== */}
-        <section className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4">
           <StatCard
             label="Total commission (this month)"
             accent="success"
             value={`${(comm?.thisMonth.total_app_markup_usd ?? 0).toFixed(2)} USD`}
             hint={`Last month: ${(comm?.lastMonth.total_app_markup_usd ?? 0).toFixed(2)} USD`}
+            className="card-portrait"
           />
           <StatCard
             label="Total transactions (this month)"
             value={(comm?.thisMonth.total_transactions_count ?? 0).toLocaleString()}
             hint={`Last month: ${(comm?.lastMonth.total_transactions_count ?? 0).toLocaleString()}`}
+            className="card-portrait"
           />
           <StatCard
             label="Owned apps"
             accent="accent"
             value={(totals?.totalApps ?? 0).toString()}
             hint={`${totals?.activeApps ?? 0} with commission activity`}
+            className="card-portrait"
           />
           <StatCard
             label="Today's transactions"
             value={(comm?.today.total_transactions_count ?? 0).toLocaleString()}
             hint={`Yesterday: ${(comm?.yesterday.total_transactions_count ?? 0).toLocaleString()}`}
+            className="card-portrait"
           />
         </section>
 
@@ -178,7 +195,7 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
               />
             </div>
 
-            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <div className="mt-5 grid gap-4 sm:grid-cols-3 grid-portrait-2">
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground">
                   Commission
@@ -210,42 +227,48 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
 
         {/* ===== App breakdown ===== */}
         <section className="mt-6">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-sm font-semibold tracking-tight">Commission by app</h2>
+            <Select
+              value={selectedAppId ? selectedAppId.toString() : "all"}
+              onValueChange={(value) =>
+                setSelectedAppId(value === "all" ? null : parseInt(value))
+              }
+            >
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="Filter by app" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All apps</SelectItem>
+                {comm?.apps?.map((app) => (
+                  <SelectItem key={app.app_id} value={app.app_id.toString()}>
+                    {app.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <AppCommissionsTable
             apps={comm?.apps ?? []}
             breakdown={comm?.range.breakdown ?? []}
             rangeLabel={`${format(rangeFrom, "MMM d, yyyy")} – ${format(rangeTo, "MMM d, yyyy")}`}
+            selectedAppId={selectedAppId}
           />
         </section>
 
-        {/* ===== Trading P&L (existing) ===== */}
+        {/* ===== Trading activity ===== */}
         {data && (
-          <>
-            <section className="mt-8">
-              <Card className="border-border/60 bg-card/40 p-5">
-                <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-sm font-semibold tracking-tight">
-                    Daily P&L (account)
-                  </h2>
-                  <span className="text-xs text-muted-foreground">
-                    Aggregated from live profit_table
-                  </span>
-                </div>
-                <CommissionChart rows={data.profitTable} currency={profitTableCurrency} />
-              </Card>
-            </section>
-
-            <section className="mt-6">
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-sm font-semibold tracking-tight">
-                  Recent trading activity
-                </h2>
-                <span className="text-xs text-muted-foreground">
-                  {data.profitTable.length} transactions
-                </span>
-              </div>
-              <ClientsTable rows={data.profitTable} currency={profitTableCurrency} />
-            </section>
-          </>
+          <section className="mt-6">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-sm font-semibold tracking-tight">
+                Recent trading activity
+              </h2>
+              <span className="text-xs text-muted-foreground">
+                {data.profitTable.length} transactions
+              </span>
+            </div>
+            <ClientsTable rows={data.profitTable} currency={profitTableCurrency} />
+          </section>
         )}
 
         <footer className="mt-10 text-center text-xs text-muted-foreground">
