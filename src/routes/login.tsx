@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { buildOAuthUrl, DERIV_APP_ID } from "@/lib/deriv";
+import { buildOAuthUrl } from "@/lib/deriv";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -114,20 +114,22 @@ function LoginPage() {
     <div className="relative min-h-screen overflow-hidden bg-background">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[640px] bg-[radial-gradient(ellipse_at_top,_oklch(0.78_0.18_145_/_0.22),_transparent_60%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_at_top,_oklch(0.82_0.16_215_/_0.20),_transparent_60%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-40 left-1/2 h-[480px] w-[680px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,_oklch(0.7_0.18_265_/_0.18),_transparent_70%)]"
+        className="pointer-events-none absolute -bottom-40 left-1/2 h-[420px] w-[600px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,_oklch(0.7_0.18_265_/_0.18),_transparent_70%)]"
       />
 
       {/* Top bar */}
-      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6">
         <Link to="/login" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[image:var(--gradient-primary)] shadow-[var(--shadow-glow)]">
-            <Activity className="h-4.5 w-4.5 text-primary-foreground" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[image:var(--gradient-primary)] shadow-[var(--shadow-glow)] sm:h-9 sm:w-9">
+            <Activity className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-base font-semibold tracking-tight">Deriv Affiliate</span>
+          <span className="text-sm font-bold tracking-tight text-primary sm:text-base">
+            AppDeriv
+          </span>
         </Link>
         <nav className="hidden items-center gap-5 text-sm text-muted-foreground sm:flex">
           <a
@@ -151,27 +153,27 @@ function LoginPage() {
         </nav>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-6xl px-6 pb-20">
+      <main className="relative z-10 mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
         {/* Hero */}
-        <section className="grid gap-10 pt-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-12">
+        <section className="grid gap-6 pt-4 sm:gap-10 sm:pt-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-12">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/60 px-3 py-1 text-xs text-muted-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Powered by the official Deriv WebSocket API
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/60 px-2.5 py-1 text-[11px] text-muted-foreground sm:gap-2 sm:px-3 sm:text-xs">
+              <Sparkles className="h-3 w-3 text-primary sm:h-3.5 sm:w-3.5" />
+              Powered by the official Deriv API
             </span>
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
+            <h1 className="mt-3 text-2xl font-bold tracking-tight sm:mt-5 sm:text-4xl lg:text-5xl">
               The control room for your{" "}
               <span className="bg-[image:var(--gradient-primary)] bg-clip-text text-transparent">
                 Deriv affiliate
               </span>{" "}
               business.
             </h1>
-            <p className="mt-4 max-w-xl text-base text-muted-foreground">
-              Track real commissions, register and manage your app IDs, generate API tokens, and
-              ship third-party trading apps on top of Deriv — all from one authenticated dashboard.
+            <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
+              Track real commissions, register and manage your apps, generate API tokens, and ship
+              third-party trading apps on top of Deriv — all from one authenticated dashboard.
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+            <div className="mt-5 flex flex-wrap items-center gap-2 sm:mt-7 sm:gap-3">
               <Button onClick={handleOAuth} variant="hero" size="lg" disabled={!redirectUri}>
                 Sign in with Deriv
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -180,28 +182,28 @@ function LoginPage() {
                 href="https://api.deriv.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border border-border/60 bg-card/60 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-card"
+                className="inline-flex items-center gap-1.5 rounded-md border border-border/60 bg-card/60 px-3 py-2 text-xs font-medium transition-colors hover:bg-card sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm"
               >
-                <BookOpen className="h-4 w-4" />
-                Deriv API docs
-                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                API docs
+                <ExternalLink className="h-3 w-3 text-muted-foreground sm:h-3.5 sm:w-3.5" />
               </a>
               <a
                 href="https://appderiv.site"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border border-border/60 bg-card/60 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-card"
+                className="inline-flex items-center gap-1.5 rounded-md border border-border/60 bg-card/60 px-3 py-2 text-xs font-medium transition-colors hover:bg-card sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm"
               >
-                <Globe className="h-4 w-4" />
+                <Globe className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 appderiv.site
-                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                <ExternalLink className="h-3 w-3 text-muted-foreground sm:h-3.5 sm:w-3.5" />
               </a>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-muted-foreground sm:mt-6 sm:text-xs">
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-                OAuth via Deriv (app_id {DERIV_APP_ID})
+                Secure OAuth sign-in
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <BarChart3 className="h-3.5 w-3.5 text-primary" />
@@ -211,14 +213,16 @@ function LoginPage() {
           </div>
 
           {/* Auth card */}
-          <Card className="border-border/60 bg-[image:var(--gradient-card)] p-6 shadow-[var(--shadow-card)]">
-            <div className="mb-4 flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                <ShieldCheck className="h-4.5 w-4.5" />
+          <Card className="border-border/60 bg-[image:var(--gradient-card)] p-4 shadow-[var(--shadow-card)] sm:p-6">
+            <div className="mb-3 flex items-center gap-2 sm:mb-4">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/15 text-primary sm:h-9 sm:w-9">
+                <ShieldCheck className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
               </div>
               <div>
-                <h2 className="text-base font-semibold">Connect your account</h2>
-                <p className="text-xs text-muted-foreground">OAuth or API token — your choice.</p>
+                <h2 className="text-sm font-semibold sm:text-base">Connect your account</h2>
+                <p className="text-[11px] text-muted-foreground sm:text-xs">
+                  OAuth or API token — your choice.
+                </p>
               </div>
             </div>
 
@@ -233,7 +237,7 @@ function LoginPage() {
               <ExternalLink className="ml-2 h-4 w-4" />
             </Button>
 
-            <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-wider text-muted-foreground">
+            <div className="my-4 flex items-center gap-3 text-[10px] uppercase tracking-wider text-muted-foreground sm:my-5 sm:text-[11px]">
               <div className="h-px flex-1 bg-border/60" />
               or paste a token
               <div className="h-px flex-1 bg-border/60" />
@@ -274,86 +278,92 @@ function LoginPage() {
         </section>
 
         {/* Features */}
-        <section className="mt-20">
-          <div className="mb-8 max-w-2xl">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+        <section className="mt-12 sm:mt-20">
+          <div className="mb-5 max-w-2xl sm:mb-8">
+            <h2 className="text-xl font-bold tracking-tight sm:text-3xl">
               Everything an affiliate or app builder needs.
             </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mt-1.5 text-xs text-muted-foreground sm:mt-2 sm:text-sm">
               One dashboard for live commissions, app management, and API tooling — straight from
               the Deriv API.
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-4">
             {FEATURES.map((f) => (
               <Card
                 key={f.title}
-                className="group border-border/60 bg-card/60 p-5 transition-colors hover:bg-card"
+                className="group border-border/60 bg-card/60 p-3 transition-colors hover:bg-card sm:p-5"
               >
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-primary transition-transform group-hover:scale-105">
-                  <f.icon className="h-5 w-5" />
+                <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary/15 text-primary transition-transform group-hover:scale-105 sm:mb-3 sm:h-10 sm:w-10 sm:rounded-lg">
+                  <f.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
-                <h3 className="text-sm font-semibold">{f.title}</h3>
-                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{f.body}</p>
+                <h3 className="text-xs font-semibold sm:text-sm">{f.title}</h3>
+                <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground sm:mt-1.5 sm:text-xs">
+                  {f.body}
+                </p>
               </Card>
             ))}
           </div>
         </section>
 
         {/* How it works */}
-        <section className="mt-16 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <section className="mt-12 grid gap-6 sm:mt-16 sm:gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">How it works</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <h2 className="text-xl font-bold tracking-tight sm:text-3xl">How it works</h2>
+            <p className="mt-1.5 text-xs text-muted-foreground sm:mt-2 sm:text-sm">
               No middlemen, no proxies. Your browser talks directly to Deriv over a secure
               WebSocket. We never see your tokens or trades.
             </p>
-            <div className="mt-6 flex flex-col gap-3">
+            <div className="mt-4 flex flex-col gap-2 sm:mt-6 sm:gap-3">
               <a
                 href="https://api.deriv.com/api-explorer"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-between rounded-lg border border-border/60 bg-card/60 px-4 py-3 text-sm transition-colors hover:bg-card"
+                className="inline-flex items-center justify-between rounded-lg border border-border/60 bg-card/60 px-3 py-2.5 text-xs transition-colors hover:bg-card sm:px-4 sm:py-3 sm:text-sm"
               >
                 <span className="inline-flex items-center gap-2">
                   <BookOpen className="h-4 w-4 text-primary" />
                   Deriv API explorer
                 </span>
-                <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground sm:h-4 sm:w-4" />
               </a>
               <a
                 href="https://appderiv.site"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-between rounded-lg border border-border/60 bg-card/60 px-4 py-3 text-sm transition-colors hover:bg-card"
+                className="inline-flex items-center justify-between rounded-lg border border-border/60 bg-card/60 px-3 py-2.5 text-xs transition-colors hover:bg-card sm:px-4 sm:py-3 sm:text-sm"
               >
                 <span className="inline-flex items-center gap-2">
                   <Globe className="h-4 w-4 text-primary" />
                   appderiv.site — third-party app builders
                 </span>
-                <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground sm:h-4 sm:w-4" />
               </a>
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {STEPS.map((s) => (
               <Card
                 key={s.n}
-                className="flex gap-4 border-border/60 bg-card/60 p-5 shadow-[var(--shadow-card)]"
+                className="flex gap-3 border-border/60 bg-card/60 p-3 shadow-[var(--shadow-card)] sm:gap-4 sm:p-5"
               >
-                <div className="font-mono text-xl font-semibold text-primary">{s.n}</div>
+                <div className="font-mono text-base font-semibold text-primary sm:text-xl">
+                  {s.n}
+                </div>
                 <div>
-                  <h3 className="text-sm font-semibold">{s.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.body}</p>
+                  <h3 className="text-xs font-semibold sm:text-sm">{s.title}</h3>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground sm:mt-1 sm:text-xs">
+                    {s.body}
+                  </p>
                 </div>
               </Card>
             ))}
           </div>
         </section>
 
-        <p className="mx-auto mt-16 max-w-md text-center text-xs text-muted-foreground">
+        <p className="mx-auto mt-10 max-w-md text-center text-[11px] text-muted-foreground sm:mt-16 sm:text-xs">
           We never send your token to any server other than Deriv&apos;s WebSocket API
           (<span className="font-mono">wss://ws.derivws.com</span>). Sessions are stored locally in
           your browser.
