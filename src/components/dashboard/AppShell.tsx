@@ -179,7 +179,7 @@ export function AppShell() {
       </aside>
 
       <header className="sticky top-0 z-30 border-b border-border/60 bg-card/60 backdrop-blur-md md:ml-72">
-        <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <div className="flex items-center justify-between gap-4 px-[30px] py-3 md:px-[30px]">
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -236,7 +236,7 @@ export function AppShell() {
         </div>
       </header>
 
-      <main className="md:pl-72">
+      <main className="w-full md:pl-72">
         <Outlet />
       </main>
     </div>

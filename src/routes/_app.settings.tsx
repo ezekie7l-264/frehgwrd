@@ -27,7 +27,7 @@ function SettingsPage() {
   }, [activeToken]);
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+    <main className="w-full px-[30px] py-8 md:px-[30px]">
       <div className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
         <p className="mt-1 text-sm text-muted-foreground">

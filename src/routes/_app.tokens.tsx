@@ -111,7 +111,7 @@ function TokensPage() {
     setScopes((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+    <main className="w-full px-[30px] py-8 md:px-[30px]">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">API Tokens</h1>

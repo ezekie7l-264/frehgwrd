@@ -115,7 +115,7 @@ function AppsPage() {
   };
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <main className="w-full px-[30px] py-8 md:px-[30px]">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">My Apps</h1>

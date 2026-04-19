@@ -123,7 +123,7 @@ function LoginPage() {
       />
 
       {/* Top bar */}
-      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6">
+      <header className="relative z-10 mx-auto flex w-full max-w-none items-center justify-between px-4 py-4 sm:px-6 sm:py-6">
         <Link
           to="/login"
           className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left text-xs text-white shadow-sm backdrop-blur-sm opacity-90 sm:text-sm"
@@ -159,7 +159,7 @@ function LoginPage() {
         </nav>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
+      <main className="relative z-10 mx-auto w-full max-w-none px-4 pb-16 sm:px-6 sm:pb-20 lg:px-0">
         {/* Hero */}
         <section className="grid gap-6 pt-4 sm:gap-10 sm:pt-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-12">
           <div>

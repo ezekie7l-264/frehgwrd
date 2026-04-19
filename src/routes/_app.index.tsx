@@ -81,8 +81,8 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
   };
 
   return (
-    <main className="min-h-screen bg-background md:ml-72">
-      <div className="px-4 py-8 sm:px-6 md:max-w-none md:px-0 md:py-0 w-full">
+    <main className="min-h-screen bg-background w-full">
+      <div className="px-[30px] py-8 md:max-w-none md:px-[30px] md:py-0 w-full">
         {/* Header */}
         <div className="mb-6 flex flex-wrap items-end justify-between gap-3 px-4 sm:px-6 md:px-0">
           <div>
