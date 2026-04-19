@@ -21,10 +21,7 @@ type Props = {
 export function AppCommissionsTable({ apps, breakdown, rangeLabel, selectedAppId }: Props) {
   // Merge: every owned app, plus stats per app id.
   const statsByApp = new Map(breakdown.map((b) => [b.app_id, b]));
-  const allIds = new Set<number>([
-    ...apps.map((a) => a.app_id),
-    ...breakdown.map((b) => b.app_id),
-  ]);
+  const allIds = new Set<number>([...apps.map((a) => a.app_id), ...breakdown.map((b) => b.app_id)]);
   const rows = Array.from(allIds).map((id) => {
     const app = apps.find((a) => a.app_id === id);
     const stats = statsByApp.get(id);

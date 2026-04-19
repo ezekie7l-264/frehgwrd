@@ -13,8 +13,8 @@ actual commission, trade, and client data — no demo or placeholder values.
 
 ## Environment
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
+| Variable            | Default  | Purpose                                                                                                                  |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `VITE_DERIV_APP_ID` | `133222` | Deriv application ID used for both OAuth and WebSocket connections. Override at build time if you register your own app. |
 
 The corresponding redirect URI must be whitelisted on the app at

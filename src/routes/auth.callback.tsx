@@ -51,9 +51,7 @@ function CallbackPage() {
         ) : (
           <>
             <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
-            <p className="mt-4 text-sm text-muted-foreground">
-              Authorizing with Deriv…
-            </p>
+            <p className="mt-4 text-sm text-muted-foreground">Authorizing with Deriv…</p>
           </>
         )}
       </div>

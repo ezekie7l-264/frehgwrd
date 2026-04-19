@@ -53,8 +53,7 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
     totals,
   } = useCommissionStats(token, customRange);
 
-  const profitTableCurrency =
-    data?.balance?.currency ?? data?.authorize?.currency ?? "USD";
+  const profitTableCurrency = data?.balance?.currency ?? data?.authorize?.currency ?? "USD";
 
   const selectedAppStats = useMemo(() => {
     if (!comm || selectedAppId == null) return null;
@@ -124,82 +123,114 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
 
         {/* ===== Commission comparisons ===== */}
         <section className="mb-2 flex flex-wrap items-end justify-between gap-3 px-4 sm:px-6 md:px-0">
-            <div>
-              <h2 className="text-sm font-semibold tracking-tight text-muted-foreground">
-                Commission overview
-              </h2>
-            </div>
-            <div className="flex items-center gap-3">
-              <Select
-                value={selectedAppId ? selectedAppId.toString() : "all"}
-                onValueChange={(value) =>
-                  setSelectedAppId(value === "all" ? null : parseInt(value, 10))
-                }
-              >
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder={comm?.apps?.length ? "All apps" : "Select app"} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All apps</SelectItem>
-                  {comm?.apps?.map((app) => (
-                    <SelectItem key={app.app_id} value={app.app_id.toString()}>
-                      {app.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {commLoading && (
-                <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Loader2 className="h-3 w-3 animate-spin" /> Updating…
-                </span>
-              )}
-            </div>
-          </section>
+          <div>
+            <h2 className="text-sm font-semibold tracking-tight text-muted-foreground">
+              Commission overview
+            </h2>
+          </div>
+          <div className="flex items-center gap-3">
+            <Select
+              value={selectedAppId ? selectedAppId.toString() : "all"}
+              onValueChange={(value) =>
+                setSelectedAppId(value === "all" ? null : parseInt(value, 10))
+              }
+            >
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder={comm?.apps?.length ? "All apps" : "Select app"} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All apps</SelectItem>
+                {comm?.apps?.map((app) => (
+                  <SelectItem key={app.app_id} value={app.app_id.toString()}>
+                    {app.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {commLoading && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Loader2 className="h-3 w-3 animate-spin" /> Updating…
+              </span>
+            )}
+          </div>
+        </section>
 
-          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4 px-4 sm:px-6 md:px-0">
-            <ComparisonCard
-              label="Today"
-              current={selectedAppStats?.today?.app_markup_usd ?? comm?.today.total_app_markup_usd ?? 0}
-              previous={selectedAppStats?.yesterday?.app_markup_usd ?? comm?.yesterday.total_app_markup_usd ?? 0}
-              previousLabel="yesterday"
-              className="card-portrait"
-            />
-            <ComparisonCard
-              label="Yesterday"
-              current={selectedAppStats?.yesterday?.app_markup_usd ?? comm?.yesterday.total_app_markup_usd ?? 0}
-              previous={selectedAppStats?.today?.app_markup_usd ?? comm?.today.total_app_markup_usd ?? 0}
-              previousLabel="today"
-              className="card-portrait"
-            />
-            <ComparisonCard
-              label="This month"
-              current={selectedAppStats?.thisMonth?.app_markup_usd ?? comm?.thisMonth.total_app_markup_usd ?? 0}
-              previous={selectedAppStats?.lastMonth?.app_markup_usd ?? comm?.lastMonth.total_app_markup_usd ?? 0}
-              previousLabel="last month"
-              className="card-portrait"
-            />
-            <ComparisonCard
-              label="Last month"
-              current={selectedAppStats?.lastMonth?.app_markup_usd ?? comm?.lastMonth.total_app_markup_usd ?? 0}
-              previous={selectedAppStats?.thisMonth?.app_markup_usd ?? comm?.thisMonth.total_app_markup_usd ?? 0}
-              previousLabel="this month"
-              className="card-portrait"
-            />
-          </section>
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4 px-4 sm:px-6 md:px-0">
+          <ComparisonCard
+            label="Today"
+            current={
+              selectedAppStats?.today?.app_markup_usd ?? comm?.today.total_app_markup_usd ?? 0
+            }
+            previous={
+              selectedAppStats?.yesterday?.app_markup_usd ??
+              comm?.yesterday.total_app_markup_usd ??
+              0
+            }
+            previousLabel="yesterday"
+            className="card-portrait"
+          />
+          <ComparisonCard
+            label="Yesterday"
+            current={
+              selectedAppStats?.yesterday?.app_markup_usd ??
+              comm?.yesterday.total_app_markup_usd ??
+              0
+            }
+            previous={
+              selectedAppStats?.today?.app_markup_usd ?? comm?.today.total_app_markup_usd ?? 0
+            }
+            previousLabel="today"
+            className="card-portrait"
+          />
+          <ComparisonCard
+            label="This month"
+            current={
+              selectedAppStats?.thisMonth?.app_markup_usd ??
+              comm?.thisMonth.total_app_markup_usd ??
+              0
+            }
+            previous={
+              selectedAppStats?.lastMonth?.app_markup_usd ??
+              comm?.lastMonth.total_app_markup_usd ??
+              0
+            }
+            previousLabel="last month"
+            className="card-portrait"
+          />
+          <ComparisonCard
+            label="Last month"
+            current={
+              selectedAppStats?.lastMonth?.app_markup_usd ??
+              comm?.lastMonth.total_app_markup_usd ??
+              0
+            }
+            previous={
+              selectedAppStats?.thisMonth?.app_markup_usd ??
+              comm?.thisMonth.total_app_markup_usd ??
+              0
+            }
+            previousLabel="this month"
+            className="card-portrait"
+          />
+        </section>
 
-          {/* ===== Totals ===== */}
-          <section className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4 px-4 sm:px-6 md:px-0">
-            <StatCard
-              label="Total commission (this month)"
-              accent="success"
-              value={`$${(selectedAppStats?.thisMonth?.app_markup_usd ?? comm?.thisMonth.total_app_markup_usd ?? 0).toFixed(2)}`}
-              hint={`Last month: $${(selectedAppStats?.lastMonth?.app_markup_usd ?? comm?.lastMonth.total_app_markup_usd ?? 0).toFixed(2)}`}
-              className="card-portrait"
-            />
-            <StatCard
-              label="Total transactions (this month)"
-              value={((selectedAppStats?.thisMonth?.transactions_count ?? comm?.thisMonth.total_transactions_count) ?? 0).toLocaleString()}
-            hint={`Last month: ${((selectedAppStats?.lastMonth?.transactions_count ?? comm?.lastMonth.total_transactions_count) ?? 0).toLocaleString()}`}
+        {/* ===== Totals ===== */}
+        <section className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 grid-portrait-4 px-4 sm:px-6 md:px-0">
+          <StatCard
+            label="Total commission (this month)"
+            accent="success"
+            value={`$${(selectedAppStats?.thisMonth?.app_markup_usd ?? comm?.thisMonth.total_app_markup_usd ?? 0).toFixed(2)}`}
+            hint={`Last month: $${(selectedAppStats?.lastMonth?.app_markup_usd ?? comm?.lastMonth.total_app_markup_usd ?? 0).toFixed(2)}`}
+            className="card-portrait"
+          />
+          <StatCard
+            label="Total transactions (this month)"
+            value={(
+              selectedAppStats?.thisMonth?.transactions_count ??
+              comm?.thisMonth.total_transactions_count ??
+              0
+            ).toLocaleString()}
+            hint={`Last month: ${(selectedAppStats?.lastMonth?.transactions_count ?? comm?.lastMonth.total_transactions_count ?? 0).toLocaleString()}`}
             className="card-portrait"
           />
           <StatCard
@@ -211,8 +242,12 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
           />
           <StatCard
             label="Today's transactions"
-            value={((selectedAppStats?.today?.transactions_count ?? comm?.today.total_transactions_count) ?? 0).toLocaleString()}
-            hint={`Yesterday: ${((selectedAppStats?.yesterday?.transactions_count ?? comm?.yesterday.total_transactions_count) ?? 0).toLocaleString()}`}
+            value={(
+              selectedAppStats?.today?.transactions_count ??
+              comm?.today.total_transactions_count ??
+              0
+            ).toLocaleString()}
+            hint={`Yesterday: ${(selectedAppStats?.yesterday?.transactions_count ?? comm?.yesterday.total_transactions_count ?? 0).toLocaleString()}`}
             className="card-portrait"
           />
         </section>
@@ -244,7 +279,12 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
                   Commission
                 </div>
                 <div className="mt-1 text-2xl font-semibold tabular-nums">
-                  {'$' + ((selectedAppStats?.range?.app_markup_usd ?? comm?.range.total_app_markup_usd ?? 0).toFixed(2))}
+                  {"$" +
+                    (
+                      selectedAppStats?.range?.app_markup_usd ??
+                      comm?.range.total_app_markup_usd ??
+                      0
+                    ).toFixed(2)}
                 </div>
               </div>
               <div>
@@ -252,7 +292,11 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
                   Transactions
                 </div>
                 <div className="mt-1 text-2xl font-semibold tabular-nums">
-                  {((selectedAppStats?.range?.transactions_count ?? comm?.range.total_transactions_count) ?? 0).toLocaleString()}
+                  {(
+                    selectedAppStats?.range?.transactions_count ??
+                    comm?.range.total_transactions_count ??
+                    0
+                  ).toLocaleString()}
                 </div>
               </div>
               <div>
@@ -260,7 +304,7 @@ function Dashboard({ token, accountLabel }: { token: string; accountLabel: strin
                   Active apps in range
                 </div>
                 <div className="mt-1 text-2xl font-semibold tabular-nums">
-                  {selectedAppId ? 1 : comm?.range.breakdown.length ?? 0}
+                  {selectedAppId ? 1 : (comm?.range.breakdown.length ?? 0)}
                 </div>
               </div>
             </div>

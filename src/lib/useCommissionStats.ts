@@ -111,10 +111,7 @@ export function pctChange(current: number, previous: number): number | null {
   return ((current - previous) / Math.abs(previous)) * 100;
 }
 
-export function useCommissionStats(
-  token: string | null,
-  customRange: { from: Date; to: Date },
-) {
+export function useCommissionStats(token: string | null, customRange: { from: Date; to: Date }) {
   const [data, setData] = useState<CommissionData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

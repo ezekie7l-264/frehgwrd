@@ -57,9 +57,7 @@ export function ClientsTable({ rows, currency }: { rows: ProfitRow[]; currency: 
         <TableBody>
           {apps.map((a) => (
             <TableRow key={a.app_id} className="border-border/60">
-              <TableCell className="font-mono text-xs">
-                {a.app_id || "—"}
-              </TableCell>
+              <TableCell className="font-mono text-xs">{a.app_id || "—"}</TableCell>
               <TableCell className="text-right tabular-nums">{a.trades}</TableCell>
               <TableCell className="text-right tabular-nums">
                 {formatCurrency(a.volume, currency)}

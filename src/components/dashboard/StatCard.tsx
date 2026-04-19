@@ -18,13 +18,13 @@ const accentMap = {
 
 export function StatCard({ label, value, hint, accent = "primary", className }: Props) {
   return (
-    <Card className={cn("relative overflow-hidden border-border/60 bg-[image:var(--gradient-card)] p-5 shadow-[var(--shadow-card)]", className)}>
-      <div
-        className={cn(
-          "absolute inset-x-0 top-0 h-px bg-gradient-to-r",
-          accentMap[accent],
-        )}
-      />
+    <Card
+      className={cn(
+        "relative overflow-hidden border-border/60 bg-[image:var(--gradient-card)] p-5 shadow-[var(--shadow-card)]",
+        className,
+      )}
+    >
+      <div className={cn("absolute inset-x-0 top-0 h-px bg-gradient-to-r", accentMap[accent])} />
       <div className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
         {label}
       </div>

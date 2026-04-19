@@ -24,11 +24,7 @@ import {
 import { Loader2 } from "lucide-react";
 
 const MARKUP_OPTIONS = ["0", "0.5", "1", "1.5", "2", "2.5", "3"] as const;
-import {
-  ALL_TOKEN_SCOPES,
-  type AppRegisterPayload,
-  type ApiTokenScope,
-} from "@/lib/deriv";
+import { ALL_TOKEN_SCOPES, type AppRegisterPayload, type ApiTokenScope } from "@/lib/deriv";
 
 export type AppFormInitial = Partial<AppRegisterPayload> & { app_id?: number };
 

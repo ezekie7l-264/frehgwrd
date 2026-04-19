@@ -70,9 +70,7 @@ function SettingsPage() {
                 >
                   <div>
                     <div className="font-mono text-sm">{a.account}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {a.currency ?? "—"}
-                    </div>
+                    <div className="text-xs text-muted-foreground">{a.currency ?? "—"}</div>
                   </div>
                   {isActive ? (
                     <Badge variant="outline" className="border-success/50 text-success">
@@ -104,9 +102,7 @@ function SettingsPage() {
         <Card className="flex items-center justify-between border-destructive/30 bg-destructive/5 p-5">
           <div>
             <h2 className="text-sm font-semibold">Sign out</h2>
-            <p className="text-xs text-muted-foreground">
-              Clears your session from this browser.
-            </p>
+            <p className="text-xs text-muted-foreground">Clears your session from this browser.</p>
           </div>
           <Button variant="destructive" size="sm" onClick={logout}>
             <LogOut className="mr-1.5 h-4 w-4" /> Logout

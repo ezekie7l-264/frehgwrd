@@ -200,13 +200,9 @@ function AppsPage() {
               </div>
 
               <div className="mt-4 space-y-1.5 text-xs">
-                {app.redirect_uri && (
-                  <Row label="Redirect" value={app.redirect_uri} link />
-                )}
+                {app.redirect_uri && <Row label="Redirect" value={app.redirect_uri} link />}
                 {app.homepage && <Row label="Homepage" value={app.homepage} link />}
-                {app.verification_uri && (
-                  <Row label="Verify" value={app.verification_uri} link />
-                )}
+                {app.verification_uri && <Row label="Verify" value={app.verification_uri} link />}
               </div>
 
               {app.scopes?.length ? (

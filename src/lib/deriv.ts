@@ -9,8 +9,7 @@
 // The token is obtained either from Deriv OAuth (?token1=... in callback URL)
 // or from a manual API token created at app.deriv.com/account/api-token.
 
-export const DERIV_APP_ID =
-  (import.meta.env.VITE_DERIV_APP_ID as string | undefined) ?? "133222";
+export const DERIV_APP_ID = (import.meta.env.VITE_DERIV_APP_ID as string | undefined) ?? "133222";
 
 export const DERIV_WS_URL = `wss://ws.derivws.com/websockets/v3?app_id=${DERIV_APP_ID}`;
 
@@ -47,7 +46,10 @@ export class DerivClient {
   }
 
   connect(): Promise<void> {
-    if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
+    if (
+      this.ws &&
+      (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)
+    ) {
       return Promise.resolve();
     }
     this.setStatus("connecting");
@@ -250,7 +252,11 @@ export const ALL_TOKEN_SCOPES: { value: ApiTokenScope; label: string; descriptio
   { value: "read", label: "Read", description: "View account activity, settings, balances." },
   { value: "trade", label: "Trade", description: "Buy and sell contracts, manage positions." },
   { value: "trading_information", label: "Trading info", description: "View trading history." },
-  { value: "payments", label: "Payments", description: "Withdraw, deposit, transfer between accounts." },
+  {
+    value: "payments",
+    label: "Payments",
+    description: "Withdraw, deposit, transfer between accounts.",
+  },
   { value: "admin", label: "Admin", description: "Full access including managing tokens & apps." },
 ];
 

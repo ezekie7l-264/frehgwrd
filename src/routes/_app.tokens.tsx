@@ -1,26 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import {
-  ALL_TOKEN_SCOPES,
-  getDerivClient,
-  type ApiTokenScope,
-} from "@/lib/deriv";
+import { ALL_TOKEN_SCOPES, getDerivClient, type ApiTokenScope } from "@/lib/deriv";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import {
-  AlertCircle,
-  Copy,
-  KeyRound,
-  Loader2,
-  Plus,
-  RefreshCw,
-  Trash2,
-} from "lucide-react";
+import { AlertCircle, Copy, KeyRound, Loader2, Plus, RefreshCw, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   Dialog,

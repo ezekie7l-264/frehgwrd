@@ -27,9 +27,7 @@ export function ComparisonCard({
     change === null ? "flat" : change > 0.05 ? "up" : change < -0.05 ? "down" : "flat";
 
   const fmt = (n: number) =>
-    format === "currency"
-      ? formatCurrency(n, currency)
-      : n.toLocaleString();
+    format === "currency" ? formatCurrency(n, currency) : n.toLocaleString();
 
   const Icon = direction === "up" ? ArrowUpRight : direction === "down" ? ArrowDownRight : Minus;
 
@@ -41,7 +39,12 @@ export function ComparisonCard({
         : "text-muted-foreground bg-muted/40 border-border";
 
   return (
-    <Card className={cn("relative overflow-hidden border-border/60 bg-[image:var(--gradient-card)] p-5 shadow-[var(--shadow-card)]", className)}>
+    <Card
+      className={cn(
+        "relative overflow-hidden border-border/60 bg-[image:var(--gradient-card)] p-5 shadow-[var(--shadow-card)]",
+        className,
+      )}
+    >
       <div className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
         {label}
       </div>
